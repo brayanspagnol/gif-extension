@@ -1,0 +1,12 @@
+{
+    "manifest_version": 3,
+    "name": "GIF Finder",
+    "description": "Pesquise e arraste GIFs do Tenor para qualquer site",
+    "version": "1.0",
+    "permissions": [
+        "activeTab"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+} 
