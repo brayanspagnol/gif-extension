@@ -4,82 +4,257 @@
     <meta charset="UTF-8">
     <title>GIF Finder</title>
     <style>
-        body {
-            width: 400px;
-            padding: 10px;
-            font-family: Arial, sans-serif;
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            width: 380px;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            background: #0f0f12;
+            color: #e8e8ec;
+        }
+
+        .header {
+            padding: 14px 14px 10px;
+            background: linear-gradient(145deg, #1a1a22 0%, #12121a 100%);
+            border-bottom: 1px solid #2a2a35;
+        }
+
+        .header h1 {
+            margin: 0 0 12px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #f4f4f8;
+        }
+
         .search-container {
             display: flex;
             gap: 8px;
-            margin-bottom: 16px;
+            align-items: stretch;
         }
+
+        .search-input-wrap {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input-wrap::before {
+            content: "⌕";
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #6b6b7a;
+            pointer-events: none;
+        }
+
         #searchInput {
-            padding: 8px;
-            border: 1px solid #9e9e9e;
-            border-radius: 4px;
+            width: 100%;
+            padding: 10px 12px 10px 32px;
+            border: 1px solid #2e2e3a;
+            border-radius: 10px;
+            background: #1c1c24;
+            color: #f0f0f5;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
+
+        #searchInput::placeholder {
+            color: #5c5c6a;
+        }
+
+        #searchInput:focus {
+            border-color: #7c5cff;
+            box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.2);
+        }
+
         #searchButton {
-            padding: 8px 16px;
-            background-color: #4CAF50;
+            padding: 0 16px;
+            background: linear-gradient(135deg, #7c5cff 0%, #5b3fd9 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.15s, transform 0.1s;
         }
+
         #searchButton:hover {
-            background-color: #45a049;
+            opacity: 0.92;
         }
+
+        #searchButton:active {
+            transform: scale(0.98);
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 28px 16px;
+            color: #9a9aad;
+            font-size: 13px;
+        }
+
+        .loading::before {
+            content: "";
+            width: 18px;
+            height: 18px;
+            border: 2px solid #2e2e3a;
+            border-top-color: #7c5cff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         #results {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            max-height: 400px;
+            gap: 8px;
+            max-height: 420px;
             overflow-y: auto;
+            padding: 10px 12px 12px;
+            scrollbar-width: thin;
+            scrollbar-color: #3a3a48 transparent;
         }
+
+        #results::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #results::-webkit-scrollbar-thumb {
+            background: #3a3a48;
+            border-radius: 3px;
+        }
+
         .gif-item {
             position: relative;
-            background: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            cursor: move;
+            background: #1c1c24;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #2a2a35;
+            cursor: grab;
+            transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+            aspect-ratio: 1;
         }
+
+        .gif-item:hover {
+            transform: translateY(-2px);
+            border-color: #7c5cff66;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+        }
+
+        .gif-item:active {
+            cursor: grabbing;
+        }
+
         .gif-item img {
             width: 100%;
-            height: auto;
-            border-radius: 4px;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
+
         .gif-item::after {
-            content: '🔄';
+            content: "Arrastar";
             position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255,255,255,0.8);
-            padding: 4px;
-            border-radius: 4px;
-            font-size: 12px;
+            bottom: 6px;
+            right: 6px;
+            background: rgba(15, 15, 18, 0.75);
+            color: #e8e8ec;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity 0.15s;
+            pointer-events: none;
         }
+
         .gif-item:hover::after {
             opacity: 1;
         }
-        .loading {
+
+        .empty-state {
+            grid-column: 1 / -1;
             text-align: center;
-            padding: 20px;
+            padding: 32px 16px;
+            margin: 0;
+            color: #7a7a8c;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        #loadMoreSentinel {
+            grid-column: 1 / -1;
+            height: 1px;
+            visibility: hidden;
+        }
+
+        .load-more {
             display: none;
+            grid-column: 1 / -1;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            font-size: 12px;
+            color: #9a9aad;
+        }
+
+        .load-more::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            border: 2px solid #2e2e3a;
+            border-top-color: #7c5cff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        .load-more.end,
+        .load-more.error {
+            display: flex;
+        }
+
+        .load-more.end::before,
+        .load-more.error::before {
+            display: none;
+        }
+
+        .load-more.error {
+            color: #ff6b6b;
         }
     </style>
 </head>
 <body>
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Insert your search">
-        <button id="searchButton">Search</button>
+    <header class="header">
+        <h1>GIF Finder</h1>
+        <div class="search-container">
+            <div class="search-input-wrap">
+                <input type="text" id="searchInput" placeholder="Buscar GIFs..." autocomplete="off">
+            </div>
+            <button type="button" id="searchButton">Buscar</button>
+        </div>
+    </header>
+    <div class="loading">Buscando...</div>
+    <div id="results">
+        <div class="load-more" aria-live="polite">Carregando mais...</div>
+        <div id="loadMoreSentinel" aria-hidden="true"></div>
     </div>
-    <div class="loading">Loading...</div>
-    <div id="results"></div>
 
     <script src="popup.js"></script>
 </body>
-</html> 
+</html>
