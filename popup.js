@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
     const resultsDiv = document.getElementById('results');
+    const resultsScroll = document.getElementById('resultsScroll');
     const loadingDiv = document.querySelector('.loading');
     const loadMoreDiv = document.querySelector('.load-more');
     const sentinel = document.getElementById('loadMoreSentinel');
@@ -19,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loadMoreDiv.classList.remove('end', 'error');
         loadMoreDiv.style.display = 'none';
         loadMoreDiv.textContent = 'Carregando mais...';
-        sentinel.style.display = 'block';
     }
 
     function createGifItem(gif) {
@@ -51,14 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const empty = document.createElement('p');
         empty.className = 'empty-state';
         empty.textContent = message;
-        resultsDiv.insertBefore(empty, loadMoreDiv);
-        sentinel.style.display = 'none';
+        resultsDiv.appendChild(empty);
     }
 
     function appendGifs(gifs) {
-        gifs.forEach((gif) => {
-            resultsDiv.insertBefore(createGifItem(gif), loadMoreDiv);
-        });
+        const fragment = document.createDocumentFragment();
+        gifs.forEach((gif) => fragment.appendChild(createGifItem(gif)));
+        resultsDiv.appendChild(fragment);
     }
 
     async function fetchGifs({ reset = false } = {}) {
@@ -140,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchGifs({ reset: false });
             }
         },
-        { root: resultsDiv, rootMargin: '80px', threshold: 0 }
+        { root: resultsScroll, rootMargin: '80px', threshold: 0 }
     );
     observer.observe(sentinel);
 
