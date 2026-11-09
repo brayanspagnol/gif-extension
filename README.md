@@ -1,43 +1,43 @@
-# Extensão de Busca de GIFs
+# GIF Search Extension
 
-Esta extensão permite que você busque e arraste GIFs diretamente do navegador para qualquer aplicativo que aceite imagens.
+This extension lets you search for GIFs and drag them straight from your browser into any app that accepts images.
 
-## Como Instalar a Extensão
+## How to Install the Extension
 
-1. Abra o Google Chrome e navegue até `chrome://extensions/`
-   - Você também pode acessar esta página clicando no menu do Chrome (três pontos verticais) > Mais ferramentas > Extensões
+1. Open Google Chrome and go to `chrome://extensions/`
+   - You can also reach this page from the Chrome menu (three vertical dots) > More tools > Extensions
 
-2. Ative o "Modo do desenvolvedor"
-   - No canto superior direito da página de extensões, você verá um toggle switch para "Modo do desenvolvedor"
-   - Certifique-se de que está ativado (toggle deve estar azul/ligado)
+2. Turn on "Developer mode"
+   - In the top right corner of the extensions page, you'll see a "Developer mode" toggle
+   - Make sure it's on (the toggle should be blue)
 
-3. Instale a extensão
-   - Clique no botão "Carregar sem compactação" que aparece no topo da página
-   - Navegue até a pasta onde você baixou/clonou este projeto
-   - Selecione a pasta principal do projeto (que contém os arquivos `manifest.json`, `popup.html`, etc.)
-   - Clique em "Selecionar pasta"
+3. Install the extension
+   - Click the "Load unpacked" button at the top of the page
+   - Go to the folder where you downloaded/cloned this project
+   - Select the project's main folder (the one containing `manifest.json`, `popup.html`, etc.)
+   - Click "Select Folder"
 
-4. Pronto!
-   - A extensão deve aparecer na sua lista de extensões
-   - Um ícone da extensão será adicionado à barra de ferramentas do Chrome
+4. Done!
+   - The extension should appear in your list of extensions
+   - An extension icon will be added to the Chrome toolbar
 
-## Como Usar
+## How to Use
 
-1. Clique no ícone da extensão na barra de ferramentas do Chrome
-2. Digite o termo de busca na caixa de pesquisa
-3. Pressione Enter ou clique no botão de busca
-4. Arraste qualquer GIF diretamente para seu aplicativo ou documento
+1. Click the extension icon in the Chrome toolbar
+2. Type your search term in the search box
+3. Press Enter or click the search button
+4. Drag any GIF straight into your app or document
 
-## Observações
+## Notes
 
-- A extensão precisa estar no "Modo do desenvolvedor" pois é uma versão local/desenvolvimento
-- Caso você atualize os arquivos da extensão, será necessário clicar no botão "Atualizar" na página de extensões
-- Para remover a extensão, basta clicar em "Remover" na página de extensões
+- The extension needs "Developer mode" because it's a local/development version
+- If you update the extension's files, you'll need to click the "Update" button on the extensions page
+- To remove the extension, just click "Remove" on the extensions page
 
-## Solução de Problemas
+## Troubleshooting
 
-Se a extensão não aparecer:
-- Verifique se todos os arquivos estão na pasta correta
-- Certifique-se de que o `manifest.json` está presente e correto
-- Tente recarregar a página de extensões
-- Desative e reative o "Modo do desenvolvedor"
+If the extension doesn't appear:
+- Check that all the files are in the right folder
+- Make sure `manifest.json` is present and correct
+- Try reloading the extensions page
+- Turn "Developer mode" off and back on
