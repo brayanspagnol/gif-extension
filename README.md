@@ -4,6 +4,8 @@
 ![Platform: Chrome](https://img.shields.io/badge/platform-Chrome-blue)
 ![Language: JavaScript](https://img.shields.io/badge/language-JavaScript-F7DF1E)
 
+[Leia em português](README.pt-BR.md)
+
 This extension lets you search for GIFs and drag them straight from your browser into any app that accepts images.
 
 ## How to Install the Extension
